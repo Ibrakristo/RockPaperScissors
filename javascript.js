@@ -12,7 +12,7 @@ else{
 }
 }
 function playround(playerSelection, computerSelection){
-if(playerSelection.toLowerCase() == "rock"){
+if(playerSelection == "rock"){
     if(computerSelection =="paper"){
         return "You Lose! Paper beats Rock!";
     }
@@ -23,7 +23,7 @@ if(playerSelection.toLowerCase() == "rock"){
         return "Draw!";
     }
 }
-else if(playerSelection.toLowerCase() =="paper"){
+else if(playerSelection =="paper"){
     if(computerSelection =="paper"){
         return "Draw!";
     }
@@ -47,20 +47,33 @@ else{
     }
 }
 }
-
-function game(){
-    let pscore = 0;
-    let cscore = 0;
-    for(let i = 0;i<5;i++){
-        let playerSelection = prompt("Your Choice :");
-        let computerSelection = getComputerChoice();
-        let result = playround(playerSelection, computerSelection);
-        //console.log(result);
-        if(result.includes("Win")) pscore++;
-        else cscore++;
+function playaround(e){
+    if(pscore == 5 || cscore == 5) return;
+    const selec = this.classList.value;
+    const compChoice = getComputerChoice();
+    game(selec,compChoice);
+    prscore.innerText=`Player Score is ${pscore}`;
+    crscore.innerText=`Computer Score is ${cscore}`;
+    drscore.innerText=`Draws: ${dscore}`;
+    if(pscore == 5){
+        result.innerText="PLAYER WON!!!";
     }
-    if(pscore>cscore) console.log("YOU WON!");
-    else if(pscore == cscore) console.log("DRAW!");
-    else console.log("YOU LOSE!");
+    else if(cscore ==5){
+        result.innerText="COMPUTER WON!!!";
+    }
 }
-game();
+function game(playerSelection, computerSelection){
+    let result = playround(playerSelection, computerSelection);
+    if(result.includes("Win")) pscore++;
+    else if(result.includes("Lose")) cscore++;
+    else dscore++;
+}
+const prscore = document.querySelector(".pscore");
+const crscore = document.querySelector(".cscore");
+const drscore = document.querySelector(".dscore");
+const result = document.querySelector(".result");
+let pscore = 0;
+let cscore = 0;
+let dscore =0;
+const buttons = document.querySelectorAll("button");
+buttons.forEach((button)=> button.addEventListener("mousedown",playaround));
