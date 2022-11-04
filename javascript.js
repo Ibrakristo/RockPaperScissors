@@ -56,10 +56,12 @@ function playaround(e){
     crscore.innerText=`Computer Score is ${cscore}`;
     drscore.innerText=`Draws: ${dscore}`;
     if(pscore == 5){
-        result.innerText="PLAYER WON!!!";
+        result.innerHTML="PLAYER WON!!!";
+        selector.appendChild(reset);
     }
-    else if(cscore ==5){
-        result.innerText="COMPUTER WON!!!";
+    else if(cscore == 5){
+        result.innerHTML="COMPUTER WON!!!";
+        selector.appendChild(reset);
     }
 }
 function game(playerSelection, computerSelection){
@@ -68,12 +70,33 @@ function game(playerSelection, computerSelection){
     else if(result.includes("Lose")) cscore++;
     else dscore++;
 }
+function restart(e){
+    if(pscore<5 && cscore<5) return;
+    pscore = 0;
+    cscore = 0;
+    dscore = 0;
+    prscore.innerText=`Player Score is ${pscore}`;
+    crscore.innerText=`Computer Score is ${cscore}`;
+    drscore.innerText=`Draws: ${dscore}`;
+    result.innerHTML ="";
+    result.appendChild(prscore);
+    result.appendChild(crscore);
+    result.appendChild(drscore);
+    selector.removeChild(reset);
+}
+const selector = document.querySelector(".reset");
+const reset = document.createElement("button");
 const prscore = document.querySelector(".pscore");
 const crscore = document.querySelector(".cscore");
 const drscore = document.querySelector(".dscore");
 const result = document.querySelector(".result");
+reset.style.width = "100px";
+reset.style.height = "70px";
+reset.innerText="RESTART";
+reset.style.fontSize="24px";
 let pscore = 0;
 let cscore = 0;
-let dscore =0;
+let dscore = 0;
+reset.addEventListener("mousedown",restart);
 const buttons = document.querySelectorAll("button");
 buttons.forEach((button)=> button.addEventListener("mousedown",playaround));
